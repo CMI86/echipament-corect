@@ -31,9 +31,33 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Chat Area */}
-      <main className="max-w-3xl mx-auto px-4 -mt-4 pb-8">
-        <ChatWidget />
+      {/* Tab Switcher */}
+      <div className="max-w-3xl mx-auto px-4 -mt-2 mb-3 flex gap-2">
+        <button
+          onClick={() => setActiveTab('chat')}
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            activeTab === 'chat'
+              ? 'bg-primary text-primary-foreground shadow-md'
+              : 'bg-secondary text-muted-foreground hover:bg-secondary/80'
+          }`}
+        >
+          💬 Asistent Chat
+        </button>
+        <button
+          onClick={() => setActiveTab('calculator')}
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            activeTab === 'calculator'
+              ? 'bg-primary text-primary-foreground shadow-md'
+              : 'bg-secondary text-muted-foreground hover:bg-secondary/80'
+          }`}
+        >
+          🧮 Calculator Valoric
+        </button>
+      </div>
+
+      {/* Content Area */}
+      <main className="max-w-3xl mx-auto px-4 pb-8">
+        {activeTab === 'chat' ? <ChatWidget /> : <EquipmentCalculator />}
       </main>
 
       {/* Disclaimer */}
