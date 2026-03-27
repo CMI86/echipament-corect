@@ -1,5 +1,7 @@
 import { ChatWidget } from '@/components/ChatWidget';
+import { EquipmentCalculator } from '@/components/EquipmentCalculator';
 import { Shield, BookOpen, Scale } from 'lucide-react';
+import { useState } from 'react';
 
 const Index = () => {
   return (
