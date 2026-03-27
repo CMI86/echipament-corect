@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { ChatWidget } from '@/components/ChatWidget';
+import { EquipmentCalculator } from '@/components/EquipmentCalculator';
 import { Shield, BookOpen, Scale } from 'lucide-react';
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState<'chat' | 'calculator'>('chat');
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Header */}
@@ -29,9 +33,33 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Chat Area */}
-      <main className="max-w-3xl mx-auto px-4 -mt-4 pb-8">
-        <ChatWidget />
+      {/* Tab Switcher */}
+      <div className="max-w-3xl mx-auto px-4 -mt-2 mb-3 flex gap-2">
+        <button
+          onClick={() => setActiveTab('chat')}
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            activeTab === 'chat'
+              ? 'bg-primary text-primary-foreground shadow-md'
+              : 'bg-secondary text-muted-foreground hover:bg-secondary/80'
+          }`}
+        >
+          💬 Asistent Chat
+        </button>
+        <button
+          onClick={() => setActiveTab('calculator')}
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            activeTab === 'calculator'
+              ? 'bg-primary text-primary-foreground shadow-md'
+              : 'bg-secondary text-muted-foreground hover:bg-secondary/80'
+          }`}
+        >
+          🧮 Calculator Valoric
+        </button>
+      </div>
+
+      {/* Content Area */}
+      <main className="max-w-3xl mx-auto px-4 pb-8">
+        {activeTab === 'chat' ? <ChatWidget /> : <EquipmentCalculator />}
       </main>
 
       {/* Disclaimer */}
