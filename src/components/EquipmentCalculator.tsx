@@ -45,15 +45,19 @@ export function EquipmentCalculator() {
     'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'
   ];
 
-  // Proportional calculation
-  const procentNatura = Math.min(100, Math.max(0, (echipamentPrimit / COTA_NATURA_2026) * 100));
-  const reducereBani = (procentNatura / 100) * COTA_BANI_2026;
-  const baniRamasi = COTA_BANI_2026 - reducereBani;
+  // Proportional to months worked (luna selectată = ultima lună achitată)
+  const cotaBaniProrata = (COTA_BANI_2026 / 12) * lunaSelectata;
+  const cotaNaturaProrata = (COTA_NATURA_2026 / 12) * lunaSelectata;
+
+  // Proportional calculation based on prorated quotas
+  const procentNatura = Math.min(100, Math.max(0, (echipamentPrimit / cotaNaturaProrata) * 100));
+  const reducereBani = (procentNatura / 100) * cotaBaniProrata;
+  const baniRamasi = cotaBaniProrata - reducereBani;
 
   // With restanțe and anticipații
   const totalBani = baniRamasi + restanteBani - anticipatiiBani;
-  const totalNatura = (COTA_NATURA_2026 - echipamentPrimit) + restanteNatura - anticipatiiNatura;
-  const baniLunar = totalBani / 12;
+  const totalNatura = (cotaNaturaProrata - echipamentPrimit) + restanteNatura - anticipatiiNatura;
+  const baniLunar = totalBani / lunaSelectata;
 
   return (
     <div className="bg-card rounded-2xl border border-border shadow-lg overflow-hidden">
