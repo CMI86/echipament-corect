@@ -68,7 +68,10 @@ export function EquipmentCalculator() {
         </div>
         <div>
           <h3 className="text-sm font-semibold text-primary-foreground">Calculator Echivalent Valoric 2026</h3>
-          <p className="text-xs text-primary-foreground/60">Cota-parte anuală: {formatLei(COTA_BANI_2026)} (bani) / {formatLei(COTA_NATURA_2026)} (natură)</p>
+          <p className="text-xs text-primary-foreground/60">Cota anuală: {formatLei(COTA_BANI_2026)} (bani) / {formatLei(COTA_NATURA_2026)} (natură)</p>
+          {lunaSelectata < 12 && (
+            <p className="text-xs text-accent/80">Cota proratată ({lunaSelectata} luni): {formatLei(cotaBaniProrata)} / {formatLei(cotaNaturaProrata)}</p>
+          )}
         </div>
       </div>
 
