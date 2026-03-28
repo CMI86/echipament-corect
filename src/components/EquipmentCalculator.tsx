@@ -104,6 +104,24 @@ export function EquipmentCalculator() {
           </div>
         </div>
 
+        {/* Luna curentă */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-muted-foreground">
+            Ultima lună achitată (pentru mutare/încetare)
+          </label>
+          <select
+            value={lunaSelectata}
+            onChange={e => setLunaSelectata(Number(e.target.value))}
+            className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          >
+            {LUNI.map((luna, i) => (
+              <option key={luna} value={i + 1}>{luna} ({i + 1} {i === 0 ? 'lună' : 'luni'})</option>
+            ))}
+          </select>
+          <p className="text-xs text-muted-foreground/70">
+            Selectează luna curentă (considerată achitată). Implicit: Decembrie (an complet).
+          </p>
+
         {/* Echipament primit în natură */}
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-muted-foreground">
