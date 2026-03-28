@@ -36,8 +36,14 @@ export function EquipmentCalculator() {
   const [restanteNatura, setRestanteNatura] = useState<number>(0);
   const [anticipatiiBani, setAntipatiiBani] = useState<number>(0);
   const [anticipatiiNatura, setAntipatiiNatura] = useState<number>(0);
+  const [lunaSelectata, setLunaSelectata] = useState<number>(12);
 
   const grade = corp === 'ofiteri' ? GRADE_OFITERI : GRADE_AGENTI;
+
+  const LUNI = [
+    'Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie',
+    'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'
+  ];
 
   // Proportional calculation
   const procentNatura = Math.min(100, Math.max(0, (echipamentPrimit / COTA_NATURA_2026) * 100));
