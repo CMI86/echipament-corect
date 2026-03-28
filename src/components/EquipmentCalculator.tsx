@@ -36,18 +36,28 @@ export function EquipmentCalculator() {
   const [restanteNatura, setRestanteNatura] = useState<number>(0);
   const [anticipatiiBani, setAntipatiiBani] = useState<number>(0);
   const [anticipatiiNatura, setAntipatiiNatura] = useState<number>(0);
+  const [lunaSelectata, setLunaSelectata] = useState<number>(12);
 
   const grade = corp === 'ofiteri' ? GRADE_OFITERI : GRADE_AGENTI;
 
-  // Proportional calculation
-  const procentNatura = Math.min(100, Math.max(0, (echipamentPrimit / COTA_NATURA_2026) * 100));
-  const reducereBani = (procentNatura / 100) * COTA_BANI_2026;
-  const baniRamasi = COTA_BANI_2026 - reducereBani;
+  const LUNI = [
+    'Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie',
+    'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'
+  ];
+
+  // Proportional to months worked (luna selectată = ultima lună achitată)
+  const cotaBaniProrata = (COTA_BANI_2026 / 12) * lunaSelectata;
+  const cotaNaturaProrata = (COTA_NATURA_2026 / 12) * lunaSelectata;
+
+  // Proportional calculation based on prorated quotas
+  const procentNatura = Math.min(100, Math.max(0, (echipamentPrimit / cotaNaturaProrata) * 100));
+  const reducereBani = (procentNatura / 100) * cotaBaniProrata;
+  const baniRamasi = cotaBaniProrata - reducereBani;
 
   // With restanțe and anticipații
   const totalBani = baniRamasi + restanteBani - anticipatiiBani;
-  const totalNatura = (COTA_NATURA_2026 - echipamentPrimit) + restanteNatura - anticipatiiNatura;
-  const baniLunar = totalBani / 12;
+  const totalNatura = (cotaNaturaProrata - echipamentPrimit) + restanteNatura - anticipatiiNatura;
+  const baniLunar = totalBani / lunaSelectata;
 
   return (
     <div className="bg-card rounded-2xl border border-border shadow-lg overflow-hidden">
@@ -58,7 +68,10 @@ export function EquipmentCalculator() {
         </div>
         <div>
           <h3 className="text-sm font-semibold text-primary-foreground">Calculator Echivalent Valoric 2026</h3>
-          <p className="text-xs text-primary-foreground/60">Cota-parte anuală: {formatLei(COTA_BANI_2026)} (bani) / {formatLei(COTA_NATURA_2026)} (natură)</p>
+          <p className="text-xs text-primary-foreground/60">Cota anuală: {formatLei(COTA_BANI_2026)} (bani) / {formatLei(COTA_NATURA_2026)} (natură)</p>
+          {lunaSelectata < 12 && (
+            <p className="text-xs text-accent/80">Cota proratată ({lunaSelectata} luni): {formatLei(cotaBaniProrata)} / {formatLei(cotaNaturaProrata)}</p>
+          )}
         </div>
       </div>
 
@@ -89,6 +102,25 @@ export function EquipmentCalculator() {
               ))}
             </select>
           </div>
+        </div>
+
+        {/* Luna curentă */}
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-muted-foreground">
+            Ultima lună achitată (pentru mutare/încetare)
+          </label>
+          <select
+            value={lunaSelectata}
+            onChange={e => setLunaSelectata(Number(e.target.value))}
+            className="w-full h-10 rounded-lg border border-input bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          >
+            {LUNI.map((luna, i) => (
+              <option key={luna} value={i + 1}>{luna} ({i + 1} {i === 0 ? 'lună' : 'luni'})</option>
+            ))}
+          </select>
+          <p className="text-xs text-muted-foreground/70">
+            Selectează luna curentă (considerată achitată). Implicit: Decembrie (an complet).
+          </p>
         </div>
 
         {/* Echipament primit în natură */}
