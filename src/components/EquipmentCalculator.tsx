@@ -121,6 +121,7 @@ export function EquipmentCalculator() {
           <p className="text-xs text-muted-foreground/70">
             Selectează luna curentă (considerată achitată). Implicit: Decembrie (an complet).
           </p>
+        </div>
 
         {/* Echipament primit în natură */}
         <div className="space-y-1.5">
